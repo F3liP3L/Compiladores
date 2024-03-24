@@ -1,7 +1,7 @@
 import sys
 import re
 
-nombre_archivo = "test_5.txt"
+nombre_archivo = input("Ingrese el path del archivo a probar :D : ")
 currentTokenPosition = 0
 currentToken = ""
 
@@ -15,8 +15,6 @@ def match(token):
     if currentToken == token:
         currentTokenPosition = currentTokenPosition + 1
         print(f"Token {token} consumido.\n")
-        if (vecLexems[currentTokenPosition-1] == '""'):
-            raise Exception("Error sintáctico, la cadena ingresada no puede ser vacia.")
     elif currentToken == "UNKNOWN":
         raise Exception("Error sintáctico, la cadena ingresada es desconocida.")
     else:
@@ -123,7 +121,7 @@ try:
     # The syntax analize begin
     print("\nThe syntax analize\n")
     org()
-    print("La cadena es valida sintácticamente")
+    print("La cadena ingresada es valida sintácticamente.")
     f.close()
 
 except Exception as exception:
