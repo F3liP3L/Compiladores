@@ -5,13 +5,14 @@ nombre_archivo = "store_grammar_sample.txt"
 currentTokenPosition = 0
 currentToken = ""
 
-
 def match(token):
     global currentTokenPosition
     global currentToken
     global vecTokenTypes
+   #print("Information function vec Token: " , vecTokenTypes, "currentToken: ", currentToken)
     currentToken = vecTokenTypes[currentTokenPosition]
     if currentToken == token:
+    #    print(token)
         currentTokenPosition = currentTokenPosition + 1
         print("se consumio ", token, "\n")
     else:
@@ -151,6 +152,8 @@ try:
     print(vec_lexems)
 
     # The syntax analize begin
+    print("\nThe syntax analize\n")
+
     store()
     f.close()
 
