@@ -1,6 +1,6 @@
 import re
 
-nameFile = input("Ingrese el path del archivo a probar :D : ")
+nameFile = "test_1.txt" # input("Ingrese el path del archivo a probar :D : ")
 currentTokenPosition = 0
 currentToken = ""
 
@@ -134,3 +134,25 @@ try:
 
 except Exception as exception:
     print(exception)
+
+
+
+
+'''def validatePositionError(inputOriginal, vecLexemes):
+    inputByLines = inputOriginal.splitlines()  # Se obtiene el contenido del archivo por lineas
+    row = 1
+    numberLexeme = len(vecLexemes)
+    tokenRowColumn = []
+    cont = 0
+    for i in inputByLines:
+        rowLength = len(i)
+        colOffset = 0
+        r = 0
+        while (r < rowLength) and (cont < numberLexeme):
+            col = i.find(vecLexemes[cont], colOffset)
+            if col >= 0:
+                tokenRowColumn.append([row, col + 1])
+                print(f'Lexema: {vecLexemes[cont]} en la fila {row} ')
+                print(f'Columna: {colOffset} ')
+                cont = cont + 1
+            r = r + 1'''
