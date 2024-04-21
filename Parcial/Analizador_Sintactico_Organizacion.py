@@ -17,8 +17,7 @@ def match(token):
     elif currentToken == "UNKNOWN":
         raise Exception("Error sintáctico, la cadena ingresada es desconocida.")
     else:
-        raise Exception(
-            "Error sintáctico, la cadena ingresada no corresponde al carácter esperado ó se esperaban datos adicionales.\n")
+        raise Exception("Error sintáctico, la cadena ingresada no corresponde al carácter esperado ó se esperaban datos adicionales.\n")
 
 
 def person():

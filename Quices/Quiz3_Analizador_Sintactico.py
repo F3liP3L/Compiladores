@@ -15,10 +15,9 @@ def match(token):
         currentTokenPosition = currentTokenPosition + 1
         print(f"Token {token} consumido.\n")
     elif currentToken == "UNKNOWN":
-        raise Exception("Error sintáctico, la cadena ingresada es desconocida.")
+        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} es desconocida, se esperaba un <{token}>.\n")
     else:
-        raise Exception(
-            "Error sintáctico, la cadena ingresada no corresponde al carácter esperado ó se esperaban datos adicionales.\n")
+        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} no corresponde al esperado token esperado <{token}>\n")
 
 
 def person():
@@ -69,29 +68,55 @@ def org():
     workgroups()
     match(")")
 
+    if currentTokenPosition < len(vecTokenTypes):
+        raise Exception("Error sintáctico, la cadena ingresada no es válida, se esperaba un token <)> al final de la cadena.")
+
+def validatePositionError(inputOriginal):
+    inputByLines = inputOriginal.splitlines()  # Se obtiene el contenido del archivo por líneas
+    row = 1
+    lexemeIndex = 0  # Índice para controlar cuál lexema estamos buscando
+
+    for line in inputByLines:
+        positionLine = 0  # Posición actual en la línea
+        # Continuar mientras haya lexemas por encontrar y no se haya llegado al final de la línea
+        while positionLine < len(line) and lexemeIndex < len(vecLexemes):
+            lexeme = vecLexemes[lexemeIndex]
+
+            col = line.find(lexeme, positionLine) # Buscar el lexema desde la posición actual en la línea
+            if col != -1:
+                # Si se encuentra el lexema, guardamos su posición (fila y columna)
+                if lexeme == vecLexemes[currentTokenPosition]:
+                    print(f'Lexema: "{lexeme}" encontrado en la fila {row}, columna {col + 1}')
+                    break
+                # Mover la posición actual a la posición después del lexema encontrado
+                positionLine = col + len(lexeme)
+                lexemeIndex += 1
+            else:
+                break  # Salir del bucle si el lexema no se encuentra para evitar bucles infinitos
+        row += 1
+
 
 try:
     # 0. Leer el contenido del archivo de la URL proporcionada
     f = open(nameFile, "r")
-    inputstr = f.read()
+    inputStr = f.read()
+    inputOriginal = inputStr
 
     # 1. Ahora se borran los signos espacio, tabulador y linea nueva de la entreada
     print("1) Se eliminan las espacios, tabuladores y linea nueva, quedando asi: \n")
-    inputstr = re.sub(r"[\n\t\s]*", "", inputstr)
-    print(inputstr)
+    inputStr = re.sub(r"[\n\t\s]*", "", inputStr)
+    print(inputStr)
 
     # 2. Ahora se agregan nuevos espacios, pero exclusivamente a partir de los ( y )
     print("2) Ahora se agregan nuevos espacios, pero exclusivamente a partir de los (, ; y ): \n")
-    inputstr = re.sub(r"\(", " ( ", inputstr)
-    inputstr = re.sub(r"\)", " ) ", inputstr)
-    inputstr = re.sub(r";", " ; ", inputstr)
-    inputstr = re.sub(r'\s+', ' ', inputstr).strip()
-    print(inputstr)
+    inputStr = re.sub(r"\(", " ( ", inputStr)
+    inputStr = re.sub(r"\)", " ) ", inputStr)
+    inputStr = re.sub(r";", " ; ", inputStr)
+    inputStr = re.sub(r'\s+', ' ', inputStr).strip()
+    print(inputStr)
 
     # 3. Ahora se realiza la clasificación de lexemas
-    inputstr = inputstr.split(" ")
-    print("La lista de posibles lexemas es: \n")
-    print(inputstr)
+    inputStr = inputStr.split(" ")
 
     vecTokenTypes = []
     vecLexemes = []
@@ -103,7 +128,7 @@ try:
                         'email': 'email',
                         ';': ';',
                         'UKNOWN': 'UNKNOWN'}
-    for c in inputstr:
+    for c in inputStr:
         r = dic_directTokens.get(c)
         if r:
             vecTokenTypes.append(r)
@@ -131,28 +156,12 @@ try:
     org()
     print("La cadena ingresada es valida sintácticamente.")
     f.close()
-
+except IndexError as ex:
+    print("Error sintáctico, la cadena ingresada no es válida, se esperaba un token <)> al final de la cadena.")
 except Exception as exception:
+    validatePositionError(inputOriginal)
     print(exception)
 
 
 
 
-'''def validatePositionError(inputOriginal, vecLexemes):
-    inputByLines = inputOriginal.splitlines()  # Se obtiene el contenido del archivo por lineas
-    row = 1
-    numberLexeme = len(vecLexemes)
-    tokenRowColumn = []
-    cont = 0
-    for i in inputByLines:
-        rowLength = len(i)
-        colOffset = 0
-        r = 0
-        while (r < rowLength) and (cont < numberLexeme):
-            col = i.find(vecLexemes[cont], colOffset)
-            if col >= 0:
-                tokenRowColumn.append([row, col + 1])
-                print(f'Lexema: {vecLexemes[cont]} en la fila {row} ')
-                print(f'Columna: {colOffset} ')
-                cont = cont + 1
-            r = r + 1'''
