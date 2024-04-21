@@ -4,7 +4,6 @@ nameFile = "test_1.txt" # input("Ingrese el path del archivo a probar :D : ")
 currentTokenPosition = 0
 currentToken = ""
 
-
 def match(token):
     global currentTokenPosition
     global currentToken
@@ -15,9 +14,9 @@ def match(token):
         currentTokenPosition = currentTokenPosition + 1
         print(f"Token {token} consumido.\n")
     elif currentToken == "UNKNOWN":
-        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} es desconocida, se esperaba un <{token}>.\n")
+        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} de tipo <{currentToken}> desconocida esperaba un <{token}>.\n")
     else:
-        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} no corresponde al esperado token esperado <{token}>\n")
+        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} de tipo <{currentToken}> no corresponde al esperado token esperado <{token}>\n")
 
 
 def person():
@@ -68,13 +67,10 @@ def org():
     workgroups()
     match(")")
 
-    if currentTokenPosition < len(vecTokenTypes):
-        raise Exception("Error sintáctico, la cadena ingresada no es válida, se esperaba un token <)> al final de la cadena.")
-
 def validatePositionError(inputOriginal):
-    inputByLines = inputOriginal.splitlines()  # Se obtiene el contenido del archivo por líneas
+    inputByLines = inputOriginal
     row = 1
-    lexemeIndex = 0  # Índice para controlar cuál lexema estamos buscando
+    lexemeIndex = 0
 
     for line in inputByLines:
         positionLine = 0  # Posición actual en la línea
@@ -85,22 +81,29 @@ def validatePositionError(inputOriginal):
             col = line.find(lexeme, positionLine) # Buscar el lexema desde la posición actual en la línea
             if col != -1:
                 # Si se encuentra el lexema, guardamos su posición (fila y columna)
+
                 if lexeme == vecLexemes[currentTokenPosition]:
-                    print(f'Lexema: "{lexeme}" encontrado en la fila {row}, columna {col + 1}')
+                    print(f'El lexema: "{lexeme}" encontrado en la linea {row}, columna {col + 1}')
                     break
                 # Mover la posición actual a la posición después del lexema encontrado
                 positionLine = col + len(lexeme)
                 lexemeIndex += 1
             else:
-                break  # Salir del bucle si el lexema no se encuentra para evitar bucles infinitos
+                # Si no se encuentra el lexema, se pasa a la siguiente línea
+                if (vecTokenTypes[currentTokenPosition] == "UNKNOWN" and positionLine != 0):
+                    print(f'Error sintáctico, en la linea {row} la cadena ingresada no es válida, se esperaba un token <{vecLexemes[currentTokenPosition]}> en la posición {positionLine}.')
+                break
         row += 1
+
 
 
 try:
     # 0. Leer el contenido del archivo de la URL proporcionada
     f = open(nameFile, "r")
     inputStr = f.read()
-    inputOriginal = inputStr
+    inputOriginal = inputStr.splitlines()
+    finalLine = len(inputOriginal)
+
 
     # 1. Ahora se borran los signos espacio, tabulador y linea nueva de la entreada
     print("1) Se eliminan las espacios, tabuladores y linea nueva, quedando asi: \n")
@@ -157,7 +160,7 @@ try:
     print("La cadena ingresada es valida sintácticamente.")
     f.close()
 except IndexError as ex:
-    print("Error sintáctico, la cadena ingresada no es válida, se esperaba un token <)> al final de la cadena.")
+    print(f"Error sintáctico, en la linea {finalLine} la cadena ingresada no es válida, se esperaba un token <)> al final de la cadena.")
 except Exception as exception:
     validatePositionError(inputOriginal)
     print(exception)
