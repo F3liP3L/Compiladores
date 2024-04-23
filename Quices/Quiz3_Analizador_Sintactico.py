@@ -1,22 +1,22 @@
 import re
 
-nameFile = "test_1.txt" # input("Ingrese el path del archivo a probar :D : ")
+nameFile = input("Ingrese el path del archivo a probar :0 : ")
 currentTokenPosition = 0
 currentToken = ""
-
 def match(token):
     global currentTokenPosition
     global currentToken
     global vecTokenTypes
     global vecLexemes
     currentToken = vecTokenTypes[currentTokenPosition]
+    messageErrorGeneric = f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} de tipo <{currentToken}>"
     if currentToken == token:
         currentTokenPosition = currentTokenPosition + 1
         print(f"Token {token} consumido.\n")
     elif currentToken == "UNKNOWN":
-        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} de tipo <{currentToken}> desconocida esperaba un <{token}>.\n")
+        raise Exception(f"{messageErrorGeneric} desconocida esperaba un <{token}>.\n")
     else:
-        raise Exception(f"Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} de tipo <{currentToken}> no corresponde al esperado token esperado <{token}>\n")
+        raise Exception(f"{messageErrorGeneric} no corresponde al esperado token esperado <{token}>\n")
 
 
 def person():
@@ -90,8 +90,8 @@ def validatePositionError(inputOriginal):
                 lexemeIndex += 1
             else:
                 # Si no se encuentra el lexema, se pasa a la siguiente línea
-                if (vecTokenTypes[currentTokenPosition] == "UNKNOWN" and positionLine != 0):
-                    print(f'Error sintáctico, en la linea {row} la cadena ingresada no es válida, se esperaba un token <{vecLexemes[currentTokenPosition]}> en la posición {positionLine}.')
+                if vecTokenTypes[currentTokenPosition] == "UNKNOWN" and positionLine > 0:
+                    print(f'Error sintáctico, en la linea {row} la cadena ingresada <{vecLexemes[currentTokenPosition]}> no es válida en la posición {positionLine}.')
                 break
         row += 1
 
@@ -159,6 +159,7 @@ try:
     org()
     print("La cadena ingresada es valida sintácticamente.")
     f.close()
+
 except IndexError as ex:
     print(f"Error sintáctico, en la linea {finalLine} la cadena ingresada no es válida, se esperaba un token <)> al final de la cadena.")
 except Exception as exception:
