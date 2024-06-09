@@ -39,7 +39,7 @@ def person():
 
     number = vecLexemes[currentTokenPosition]
     if number in numbers:
-        response += f"<h2>Error semántico: el numero {number} ya fue registrado.</h2>"
+        response += f"<h2>Error semántico: el número {number} ya se encuentra registrado en la organización.</h2>"
     numbers.add(number)
     match("number")
     match(";")
@@ -54,7 +54,7 @@ def person():
 
     email = vecLexemes[currentTokenPosition]
     if email in emails:
-        response += f"<h2>Error semántico: el correo {email} ya fue registrado.</h2>"
+        response += f"<h2>Error semántico: el correo {email} ya se encuentra registrado en la organización.</h2>"
     emails.add(email)
     match("email")
     match(";")
@@ -100,6 +100,9 @@ def org():
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+            }}
+            table {{
+                margin-top: 20px;
             }}
         </style>
         <meta charset="utf-8"/>
