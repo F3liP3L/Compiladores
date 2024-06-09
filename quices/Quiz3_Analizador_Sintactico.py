@@ -3,6 +3,7 @@ import re
 nameFile = input("Ingrese el path del archivo a probar :0 : ")
 currentTokenPosition = 0
 currentToken = ""
+
 def match(token):
     global currentTokenPosition
     global currentToken
@@ -92,6 +93,9 @@ def validatePositionError(inputOriginal):
                 # Si no se encuentra el lexema, se pasa a la siguiente línea
                 if vecTokenTypes[currentTokenPosition] == "UNKNOWN" and positionLine > 0:
                     print(f'Error sintáctico, en la linea {row} la cadena ingresada <{vecLexemes[currentTokenPosition]}> no es válida en la posición {positionLine}.')
+                if line.strip() == "":
+                    print("Se alcanzo el final de linea")
+                    break
                 break
         row += 1
 
