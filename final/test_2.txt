@@ -1,0 +1,11 @@
+"DanielayAsociados" (
+              WG(
+                1889;"Felipe";"Cardona";felipe123@gmail.com;
+                0777;"Daniela";"Alarcon";daniela07@outlok.com;
+                )
+              WG(
+                2002;"Paolo";"Beltran";lobito777@yahoo.com;
+                0777;"Daniel";"Craft";danielcr4ft.pro@gmai.com;
+                180032;"Cristian";"Zapato";cristian1235@gmail.com;
+                )
+              )

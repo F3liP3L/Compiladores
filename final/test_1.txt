@@ -1,0 +1,10 @@
+"Lucky69S.A.S" (
+                WG (
+                    3434;"Felipe";"Toro";felipe2@gmail.com;
+                    3435;"Felipe";"Lora";lora34@gmail.com;
+                    1230;"Fedelobo"; "Lora";lora34@hotmail.com;
+                    00230;"juan Bendición"; "Lora";lora34@hotmail.com;
+                    1143;"Juan";"Lora";lra44@gmail.com;
+                    0000;"juan Bendición"; "Lora";cardona@hotmail.com;
+                    )
+                )
