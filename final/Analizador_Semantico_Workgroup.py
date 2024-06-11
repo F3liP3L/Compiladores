@@ -23,7 +23,7 @@ def match(token):
     global currentTokenPosition
     global currentToken
     currentToken = vecTokenTypes[currentTokenPosition]
-    messageErrorSemanticGeneric = f'Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} de tipo {token}'
+    messageErrorSemanticGeneric = f'Error sintáctico, la cadena {vecLexemes[currentTokenPosition]} de tipo {currentToken}'
     if currentToken == token:
         currentTokenPosition += 1
     elif currentToken == "UNKNOWN":
